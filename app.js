@@ -1,4 +1,4 @@
-var list = document.querySelectorAll('#addedItem p')
+var list = document.querySelectorAll('#addedItem')
 var addedItem = document.querySelector('#addedItem')
 var add = document.forms['todo']
 //var add = document.querySelector('#add')
@@ -14,6 +14,21 @@ add.addEventListener('submit',(e) => {
 
 console.log(list)
 Array.from(list).forEach((item) => {
+    item.addEventListener('click', (e) => {
+        if(e.target.tagName = 'p'){
+            const li = e.target;
+            li.parentNode.removeChild(li);
+            
+        }
+        //var parent = e.target.parentElement
+        //"item.parentElement" and "e.target.parentElement" are same
+        //parent.removeChild(item)
+    })
+
+})
+
+/*
+Array.from(list).forEach((item) => {
     item.addEventListener('click',(e) => {
        var parent = e.target.parentElement 
        //"item.parentElement" and "e.target.parentElement" are same
@@ -21,3 +36,4 @@ Array.from(list).forEach((item) => {
     })
 
 })
+*/
