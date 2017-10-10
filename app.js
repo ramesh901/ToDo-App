@@ -11,10 +11,34 @@ function taskFromStorage() {
 
 function createDomFromStorage(value) {  
   JSON.parse(value).forEach((item) => {
-    var ptag = document.createElement('p')
-    ptag.textContent = item["title"]
-    addedItem.appendChild(ptag)
+    var checkbox = document.createElement('input')
+    checkbox.setAttribute('type', 'checkbox')
+    var label = document.createElement('label')
+    label.textContent = item["title"]
+    //checkbox.textContent = value
+    //checkbox += "<br>"
+    var br = document.createElement('BR')
+    console.log("checkbox is", checkbox)
+
+    addedItem.appendChild(checkbox)
+    addedItem.appendChild(label)
+    addedItem.appendChild(br)
   })
+}
+
+function createDomFromText(value) {
+  var checkbox = document.createElement('input')
+  checkbox.setAttribute('type', 'checkbox')
+  var label = document.createElement('label')
+  label.textContent = value
+  //checkbox.textContent = value
+  //checkbox += "<br>"
+  var br = document.createElement('BR')
+  console.log("checkbox is", checkbox)
+
+  addedItem.appendChild(checkbox)
+  addedItem.appendChild(label)
+  addedItem.appendChild(br)
 }
 
 var generateID = (function () {
@@ -32,19 +56,9 @@ function addTask (e) {
   e.preventDefault()
   var value = add.querySelector('input[type="text"]').value
   saveData(value)  
-  var ptag = document.createElement('p')
-  var checkbox = document.createElement('input')
-  checkbox.setAttribute('type','checkbox')
-  var label = document.createElement('label')
-  label.textContent = value
-  //checkbox.textContent = value
-  //checkbox += "<br>"
-  var br = document.createElement('BR')
-  console.log("checkbox is",checkbox)
-  ptag.textContent = value
-  addedItem.appendChild(checkbox)
-  addedItem.appendChild(label)
-  addedItem.appendChild(br)
+  createDomFromText(value)
+  
+  
 
 }
 
@@ -68,6 +82,7 @@ function saveData(value) {
   valueStorage.push(temp)
   console.log(valueStorage)
   localStorage.setItem('task', JSON.stringify(valueStorage))
+  return temp
 
 }
 
