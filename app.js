@@ -9,14 +9,12 @@ function taskFromStorage() {
   }
 }
 
-function createDomFromStorage(value) {
-  
+function createDomFromStorage(value) {  
   JSON.parse(value).forEach((item) => {
     var ptag = document.createElement('p')
     ptag.textContent = item["title"]
     addedItem.appendChild(ptag)
   })
-
 }
 
 var generateID = (function () {
@@ -35,8 +33,19 @@ function addTask (e) {
   var value = add.querySelector('input[type="text"]').value
   saveData(value)  
   var ptag = document.createElement('p')
+  var checkbox = document.createElement('input')
+  checkbox.setAttribute('type','checkbox')
+  var label = document.createElement('label')
+  label.textContent = value
+  //checkbox.textContent = value
+  //checkbox += "<br>"
+  var br = document.createElement('BR')
+  console.log("checkbox is",checkbox)
   ptag.textContent = value
-  addedItem.appendChild(ptag)
+  addedItem.appendChild(checkbox)
+  addedItem.appendChild(label)
+  addedItem.appendChild(br)
+
 }
 
 function saveData(value) {
@@ -62,7 +71,7 @@ function saveData(value) {
 
 }
 
-function removeData(value) {
+function removeTask(value) {
   var valueStorage = []
   var tempValue = localStorage.getItem('task')
   if (tempValue != null) {
@@ -85,7 +94,7 @@ Array.from(list).forEach((item) => {
     console.log("textcontent",e.target.textContent)
     var li = e.target
     li.parentNode.removeChild(li)
-    removeData(e.target.textContent)
+    removeTask(e.target.textContent)
     
   })
 })
