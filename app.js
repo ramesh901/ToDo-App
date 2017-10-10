@@ -10,7 +10,7 @@ function taskFromStorage () {
     JSON.parse(localTask).forEach((item) => {
       console.log('items are', item)
       var ptag = document.createElement('p')
-      ptag.textContent = item
+      ptag.textContent = item["title"]
       addedItem.appendChild(ptag)
     })
   }
@@ -26,18 +26,26 @@ add.addEventListener('submit', addTask)
 function addTask (e) {
   e.preventDefault()
   var value = add.querySelector('input[type="text"]').value
-
-  valueStorage.push(value)
-  console.log(valueStorage)
-  localStorage.setItem('task', JSON.stringify(valueStorage))
+  saveData(value)  
   var ptag = document.createElement('p')
   ptag.textContent = value
   addedItem.appendChild(ptag)
 }
 
+function saveData(value) {
+  var temp = {}
+  temp["title"] = value
+  temp["completed"] = false
+  valueStorage.push(temp)
+  console.log(valueStorage)
+  localStorage.setItem('task', JSON.stringify(valueStorage))
+
+}
+
 // console.log(list)
 Array.from(list).forEach((item) => {
   item.addEventListener('click', (e) => {
+    console.log("item to be deleted",item)
     if (e.target.tagName === 'p') {
       var li = e.target
       li.parentNode.removeChild(li)
