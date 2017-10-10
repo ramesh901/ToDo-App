@@ -1,5 +1,3 @@
-var valueStorage = []
-
 var list = document.querySelectorAll('#addedItem')
 var addedItem = document.querySelector('#addedItem')
 var add = document.forms['todo']
@@ -7,15 +5,26 @@ var add = document.forms['todo']
 function taskFromStorage() {
   var localTask = localStorage.getItem('task')
   if (localTask) {
-    JSON.parse(localTask).forEach((item) => {
-      console.log('items are', item)
-      valueStorage.push(item)
-      var ptag = document.createElement('p')
-      ptag.textContent = item["title"]
-      addedItem.appendChild(ptag)
-    })
+    createDomFromStorage(localTask)
   }
 }
+
+function createDomFromStorage(value) {
+  
+  JSON.parse(value).forEach((item) => {
+    var ptag = document.createElement('p')
+    ptag.textContent = item["title"]
+    addedItem.appendChild(ptag)
+  })
+
+}
+
+var generateID = (function () {
+  var globalIdCounter = 0;
+  return function (baseStr) {
+    return (baseStr + Date.now() + globalIdCounter++);
+  }
+})();
 
 taskFromStorage()
 
@@ -32,8 +41,21 @@ function addTask (e) {
 
 function saveData(value) {
   var temp = {}
+  temp["id"] = generateID("task")
   temp["title"] = value
   temp["completed"] = false
+
+  var valueStorage = []
+  var tempValue = localStorage.getItem('task')
+  
+  if(tempValue != null) {
+    console.log("temp Value is", tempValue)
+    console.log(typeof(tempValue))
+    JSON.parse(tempValue).forEach((item) => valueStorage.push(item))
+    
+
+    
+  }
   valueStorage.push(temp)
   console.log(valueStorage)
   localStorage.setItem('task', JSON.stringify(valueStorage))
@@ -41,6 +63,13 @@ function saveData(value) {
 }
 
 function removeData(value) {
+  var valueStorage = []
+  var tempValue = localStorage.getItem('task')
+  if (tempValue != null) {
+    console.log("temp Value is", tempValue)
+    console.log(typeof (tempValue))
+    JSON.parse(tempValue).forEach((item) => valueStorage.push(item))
+  }
   var findObject = valueStorage.find((e) => e.title === value)
   var index = valueStorage.indexOf(findObject)
   valueStorage.splice(index,1)
