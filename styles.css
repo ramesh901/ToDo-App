@@ -12,3 +12,7 @@
     cursor: pointer;
     color: white;
 }
+
+.labelStrike{
+    text-decoration: line-through;
+}

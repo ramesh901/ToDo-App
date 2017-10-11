@@ -2,6 +2,8 @@ var list = document.querySelectorAll('#addedItem')
 var addedItem = document.querySelector('#addedItem')
 var add = document.forms['todo']
 
+
+
 function taskFromStorage() {
   var localTask = localStorage.getItem('task')
   if (localTask) {
@@ -16,20 +18,18 @@ function createDomFromStorage(value) {
 }
 
 function createDomFromObject(value) {
+  var taskCounter = 1
   var div = document.createElement('div')
   div.setAttribute('id',value["id"])
   var checkbox = document.createElement('input')
   checkbox.setAttribute('type', 'checkbox')
+  checkbox.setAttribute('id',taskCounter)
   var label = document.createElement('label')
   label.textContent = value["title"]
+  label.setAttribute('for',taskCounter++)
   var span = document.createElement('span')
   span.textContent = 'delete'
   span.setAttribute('class','delete')
-  //checkbox.textContent = value
-  //checkbox += "<br>"
-  
-  console.log("checkbox is", checkbox)
-
   addedItem.appendChild(div)
   div.appendChild(checkbox)
   div.appendChild(label)
@@ -99,17 +99,40 @@ function removeTask(value) {
 // console.log(list)
 Array.from(list).forEach((item) => {
   item.addEventListener('click', (e) => {
+    var checkbox = document.querySelectorAll("input[type=checkbox]") 
+    console.log('checked items are',checkbox)
     console.log("item to be deleted",e.target)
     console.log("delete item parent",e.target.parentNode)
     console.log("textcontent",e.target.textContent)
     console.log('classname',e.target.className)
+    console.log(e.target.type)
+    var li = e.target.parentNode
     if(e.target.className === 'delete') {
-      var li = e.target.parentNode
+      
       var id = e.target.parentNode.getAttribute('id')
     li.parentNode.removeChild(li)
     console.log('delete id is',id,typeof(id))
     removeTask(id)
     }
+
+    if (e.target.checked){
+      li.setAttribute('class','labelStrike')
+           
+    }
+    if (e.target.checked === false) {
+      li.setAttribute('class', '')
+
+    }
+
+
     
   })
 })
+/*
+Array.from(checkbox).forEach((item) => {
+  item.addEventListener('change', (e) => {
+    console.log('checkbox e target',e.target)
+    console.log('checkbox parent',e.target.parentNode)
+  })
+})*/
+
