@@ -18,15 +18,15 @@ function createDomFromStorage(value) {
 }
 
 function createDomFromObject(value) {
-  var taskCounter = 1
+  
   var div = document.createElement('div')
   div.setAttribute('id',value["id"])
   var checkbox = document.createElement('input')
   checkbox.setAttribute('type', 'checkbox')
-  checkbox.setAttribute('id',taskCounter)
+  checkbox.setAttribute('id',generateTaskID())
   var label = document.createElement('label')
   label.textContent = value["title"]
-  label.setAttribute('for',taskCounter++)
+  label.setAttribute('for',checkbox.getAttribute('id'))
   var span = document.createElement('span')
   span.textContent = 'delete'
   span.setAttribute('class','delete')
@@ -40,6 +40,13 @@ var generateID = (function () {
   var globalIdCounter = 0;
   return function (baseStr) {
     return (baseStr + Date.now() + globalIdCounter++);
+  }
+})();
+
+var generateTaskID = (function () {
+  var globalIdCounter = 1;
+  return function () {
+    return (globalIdCounter++);
   }
 })();
 
@@ -114,13 +121,32 @@ Array.from(list).forEach((item) => {
     console.log('delete id is',id,typeof(id))
     removeTask(id)
     }
+    var valueStorage = []
+    var tempValue = localStorage.getItem('task')
+    if (tempValue != null) {
+      //console.log("temp Value is", tempValue)
+      //console.log(typeof (tempValue))
+      JSON.parse(tempValue).forEach((item) => valueStorage.push(item))
+    }
+    var findObject = valueStorage.find((e) => e.id === li.getAttribute('id'))
+
+    var index = valueStorage.indexOf(findObject)
 
     if (e.target.checked){
       li.setAttribute('class','labelStrike')
+      
+      
+      findObject["completed"] = true
+      valueStorage[index] = findObject
+      localStorage.setItem('task', JSON.stringify(valueStorage))
+
            
     }
     if (e.target.checked === false) {
       li.setAttribute('class', '')
+      findObject["completed"] = false
+      valueStorage[index] = findObject
+      localStorage.setItem('task', JSON.stringify(valueStorage))
 
     }
 
