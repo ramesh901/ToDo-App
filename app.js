@@ -72,15 +72,7 @@ function saveData(value) {
   temp["id"] = generateID("task")
   temp["title"] = value
   temp["completed"] = false
-
-  var valueStorage = []
-  var tempValue = localStorage.getItem('task')
-  
-  if(tempValue != null) {
-    //console.log("temp Value is", tempValue)
-    //console.log(typeof(tempValue))
-    JSON.parse(tempValue).forEach((item) => valueStorage.push(item))    
-  }
+  var valueStorage = getStorage()  
   valueStorage.push(temp)
   console.log(valueStorage)
   localStorage.setItem('task', JSON.stringify(valueStorage))
@@ -88,14 +80,22 @@ function saveData(value) {
 
 }
 
-function removeTask(value) {
+function getStorage() {
   var valueStorage = []
   var tempValue = localStorage.getItem('task')
   if (tempValue != null) {
     //console.log("temp Value is", tempValue)
-    //console.log(typeof (tempValue))
+    //console.log(typeof(tempValue))
     JSON.parse(tempValue).forEach((item) => valueStorage.push(item))
   }
+  return valueStorage
+
+}
+
+
+
+function removeTask(value) {
+  var valueStorage = getStorage()
   var findObject = valueStorage.find((e) => e.id === value)
   var index = valueStorage.indexOf(findObject)
   valueStorage.splice(index,1)
@@ -107,12 +107,7 @@ function removeTask(value) {
 Array.from(list).forEach((item) => {
   item.addEventListener('click', (e) => {
     var checkbox = document.querySelectorAll("input[type=checkbox]") 
-    console.log('checked items are',checkbox)
-    console.log("item to be deleted",e.target)
-    console.log("delete item parent",e.target.parentNode)
-    console.log("textcontent",e.target.textContent)
-    console.log('classname',e.target.className)
-    console.log(e.target.type)
+    
     var li = e.target.parentNode
     if(e.target.className === 'delete') {
       
@@ -121,13 +116,7 @@ Array.from(list).forEach((item) => {
     console.log('delete id is',id,typeof(id))
     removeTask(id)
     }
-    var valueStorage = []
-    var tempValue = localStorage.getItem('task')
-    if (tempValue != null) {
-      //console.log("temp Value is", tempValue)
-      //console.log(typeof (tempValue))
-      JSON.parse(tempValue).forEach((item) => valueStorage.push(item))
-    }
+    var valueStorage = getStorage()
     var findObject = valueStorage.find((e) => e.id === li.getAttribute('id'))
 
     var index = valueStorage.indexOf(findObject)
