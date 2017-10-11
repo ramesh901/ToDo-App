@@ -11,34 +11,29 @@ function taskFromStorage() {
 
 function createDomFromStorage(value) {  
   JSON.parse(value).forEach((item) => {
-    var checkbox = document.createElement('input')
-    checkbox.setAttribute('type', 'checkbox')
-    var label = document.createElement('label')
-    label.textContent = item["title"]
-    //checkbox.textContent = value
-    //checkbox += "<br>"
-    var br = document.createElement('BR')
-    console.log("checkbox is", checkbox)
-
-    addedItem.appendChild(checkbox)
-    addedItem.appendChild(label)
-    addedItem.appendChild(br)
+    createDomFromObject(item)
   })
 }
 
-function createDomFromText(value) {
+function createDomFromObject(value) {
+  var div = document.createElement('div')
+  div.setAttribute('id',value["id"])
   var checkbox = document.createElement('input')
   checkbox.setAttribute('type', 'checkbox')
   var label = document.createElement('label')
-  label.textContent = value
+  label.textContent = value["title"]
+  var span = document.createElement('span')
+  span.textContent = 'delete'
+  span.setAttribute('class','delete')
   //checkbox.textContent = value
   //checkbox += "<br>"
-  var br = document.createElement('BR')
+  
   console.log("checkbox is", checkbox)
 
-  addedItem.appendChild(checkbox)
-  addedItem.appendChild(label)
-  addedItem.appendChild(br)
+  addedItem.appendChild(div)
+  div.appendChild(checkbox)
+  div.appendChild(label)
+  div.appendChild(span)
 }
 
 var generateID = (function () {
@@ -55,8 +50,11 @@ add.addEventListener('submit', addTask)
 function addTask (e) {
   e.preventDefault()
   var value = add.querySelector('input[type="text"]').value
-  saveData(value)  
-  createDomFromText(value)
+  console.log('value is',value)
+  if(value.trim()){
+  var taskObject = saveData(value)  
+  createDomFromObject(taskObject)
+  }
   
   
 
@@ -72,12 +70,9 @@ function saveData(value) {
   var tempValue = localStorage.getItem('task')
   
   if(tempValue != null) {
-    console.log("temp Value is", tempValue)
-    console.log(typeof(tempValue))
-    JSON.parse(tempValue).forEach((item) => valueStorage.push(item))
-    
-
-    
+    //console.log("temp Value is", tempValue)
+    //console.log(typeof(tempValue))
+    JSON.parse(tempValue).forEach((item) => valueStorage.push(item))    
   }
   valueStorage.push(temp)
   console.log(valueStorage)
@@ -90,11 +85,11 @@ function removeTask(value) {
   var valueStorage = []
   var tempValue = localStorage.getItem('task')
   if (tempValue != null) {
-    console.log("temp Value is", tempValue)
-    console.log(typeof (tempValue))
+    //console.log("temp Value is", tempValue)
+    //console.log(typeof (tempValue))
     JSON.parse(tempValue).forEach((item) => valueStorage.push(item))
   }
-  var findObject = valueStorage.find((e) => e.title === value)
+  var findObject = valueStorage.find((e) => e.id === value)
   var index = valueStorage.indexOf(findObject)
   valueStorage.splice(index,1)
   localStorage.setItem('task', JSON.stringify(valueStorage))
@@ -107,9 +102,14 @@ Array.from(list).forEach((item) => {
     console.log("item to be deleted",e.target)
     console.log("delete item parent",e.target.parentNode)
     console.log("textcontent",e.target.textContent)
-    var li = e.target
+    console.log('classname',e.target.className)
+    if(e.target.className === 'delete') {
+      var li = e.target.parentNode
+      var id = e.target.parentNode.getAttribute('id')
     li.parentNode.removeChild(li)
-    removeTask(e.target.textContent)
+    console.log('delete id is',id,typeof(id))
+    removeTask(id)
+    }
     
   })
 })
