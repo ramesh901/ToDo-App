@@ -105,12 +105,8 @@ function removeTask (value) {
 // console.log(list)
 Array.from(list).forEach((item) => {
   item.addEventListener('click', (e) => {
-
     var li = e.target.parentNode
-    console.log("li is", li)
-    console.log("e target", e.target)
     var divId = li.parentNode
-    console.log("divid is",divId)
     if (e.target.className === 'delete') {
       var id = li.parentNode.getAttribute('id')
       divId.parentNode.removeChild(divId)
@@ -119,7 +115,7 @@ Array.from(list).forEach((item) => {
     }
     var valueStorage = getStorage()
     var findObject = valueStorage.find((e) => e.id === divId.getAttribute('id'))
-    console.log("find object is",findObject)
+    
 
     var index = valueStorage.indexOf(findObject)
 
