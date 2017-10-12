@@ -16,6 +16,12 @@ body{
     border: 1px solid lightgray;
 }
 
+#page-banner{
+    background: #eee ;
+    padding: 10px 0;
+
+}
+
 #page-banner h1{
     width: 100%;
     text-align: center;
@@ -94,7 +100,7 @@ body{
 
 /* When the checkbox is checked, add a blue background */
 .container input:checked ~ .checkmark {
-    background-color: #2196F3;
+    background-color: #9361bf;
 }
 
 /* Create the checkmark/indicator (hidden when not checked) */

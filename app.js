@@ -20,10 +20,10 @@ function createDomFromObject (value) {
   div.setAttribute('id', value['id'])
   var checkbox = document.createElement('input')
   checkbox.setAttribute('type', 'checkbox')
-  checkbox.setAttribute('id', generateTaskID())
+  //checkbox.setAttribute('id', generateTaskID())
   var label = document.createElement('label')
   label.textContent = value['title']
-  label.setAttribute('for', checkbox.getAttribute('id'))
+  label.setAttribute('class', 'container')
   if (value['completed']) {
     div.setAttribute('class', 'labelStrike')
     checkbox.checked = true
@@ -32,10 +32,14 @@ function createDomFromObject (value) {
   var span = document.createElement('span')
   span.textContent = 'delete'
   span.setAttribute('class', 'delete')
+  var spanCheck = document.createElement('span')
+  spanCheck.setAttribute('class', 'checkmark')
   addedItem.appendChild(div)
-  div.appendChild(checkbox)
   div.appendChild(label)
-  div.appendChild(span)
+  label.appendChild(checkbox)
+  label.appendChild(spanCheck)
+  label.appendChild(span)
+
 }
 
 var generateID = (function () {
@@ -101,27 +105,34 @@ function removeTask (value) {
 // console.log(list)
 Array.from(list).forEach((item) => {
   item.addEventListener('click', (e) => {
+
     var li = e.target.parentNode
+    console.log("li is", li)
+    console.log("e target", e.target)
+    var divId = li.parentNode
+    console.log("divid is",divId)
     if (e.target.className === 'delete') {
-      var id = e.target.parentNode.getAttribute('id')
-      li.parentNode.removeChild(li)
+      var id = li.parentNode.getAttribute('id')
+      divId.parentNode.removeChild(divId)
       //console.log('delete id is', id, typeof (id))
       removeTask(id)
     }
     var valueStorage = getStorage()
-    var findObject = valueStorage.find((e) => e.id === li.getAttribute('id'))
+    var findObject = valueStorage.find((e) => e.id === divId.getAttribute('id'))
+    console.log("find object is",findObject)
 
     var index = valueStorage.indexOf(findObject)
 
     if (e.target.checked) {
-      li.setAttribute('class', 'labelStrike')
+      
+      li.parentNode.setAttribute('class', 'labelStrike')
 
       findObject['completed'] = true
       valueStorage[index] = findObject
       localStorage.setItem('task', JSON.stringify(valueStorage))
     }
     if (e.target.checked === false) {
-      li.setAttribute('class', '')
+      divId.setAttribute('class', '')
       findObject['completed'] = false
       valueStorage[index] = findObject
       localStorage.setItem('task', JSON.stringify(valueStorage))
