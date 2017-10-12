@@ -59,7 +59,7 @@ add.addEventListener('submit', addTask)
 function addTask (e) {
   e.preventDefault()
   var value = add.querySelector('input[type="text"]').value
-  console.log('value is', value)
+  //console.log('value is', value)
   if (value.trim()) {
     var taskObject = saveData(value)
     createDomFromObject(taskObject)
@@ -73,7 +73,7 @@ function saveData (value) {
   temp['completed'] = false
   var valueStorage = getStorage()
   valueStorage.push(temp)
-  console.log(valueStorage)
+  //console.log(valueStorage)
   localStorage.setItem('task', JSON.stringify(valueStorage))
   return temp
 }
@@ -104,7 +104,7 @@ Array.from(list).forEach((item) => {
     if (e.target.className === 'delete') {
       var id = e.target.parentNode.getAttribute('id')
       li.parentNode.removeChild(li)
-      console.log('delete id is', id, typeof (id))
+      //console.log('delete id is', id, typeof (id))
       removeTask(id)
     }
     var valueStorage = getStorage()
@@ -127,10 +127,4 @@ Array.from(list).forEach((item) => {
     }
   })
 })
-/*
-Array.from(checkbox).forEach((item) => {
-  item.addEventListener('change', (e) => {
-    console.log('checkbox e target',e.target)
-    console.log('checkbox parent',e.target.parentNode)
-  })
-}) */
+
