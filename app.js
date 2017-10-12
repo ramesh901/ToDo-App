@@ -59,6 +59,7 @@ add.addEventListener('submit', addTask)
 function addTask (e) {
   e.preventDefault()
   var value = add.querySelector('input[type="text"]').value
+  add.querySelector('input[type="text"]').value = ''
   //console.log('value is', value)
   if (value.trim()) {
     var taskObject = saveData(value)
