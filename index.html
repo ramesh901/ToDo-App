@@ -6,19 +6,22 @@
         <title>ToDo</title>        
     </head>
     <body>
-        <header>
-            <h1>ToDo List</h1>            
-        </header>
-        <div>
-            <form id="todo">
-                <input type="text" name="txt" placeholder="Enter your todo task..." />
-                <button id="add"> Add </button>
-            </form>
-            
-        </div>
-        <div >
-            <form id="addedItem"> 
-            </form>            
+        <div id="wrapper">
+            <header>
+                <div id="page-banner">
+                    <h1>ToDo List</h1>
+                    <div>
+                        <form id="todo">
+                            <input type="text" id="add" name="txt" placeholder="Enter your todo task..." />
+                            
+                        </form>
+                    </div>
+                </div>
+            </header>
+            <div>
+                <form id="addedItem"> 
+                </form>            
+            </div>
         </div>
         <script src="app.js"></script>
     </body>
