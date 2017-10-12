@@ -24,11 +24,10 @@ function createDomFromObject (value) {
   var label = document.createElement('label')
   label.textContent = value['title']
   label.setAttribute('for', checkbox.getAttribute('id'))
-  if(value['completed']){
+  if (value['completed']) {
     div.setAttribute('class', 'labelStrike')
     checkbox.checked = true
   }
-  
 
   var span = document.createElement('span')
   span.textContent = 'delete'
